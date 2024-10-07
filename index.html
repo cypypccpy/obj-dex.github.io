@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Object-Centric Dexterous Manipulation from Human Motion Data</title>
+
+    <script>
+        var task_map = {
+            "simple-object-manipulation": "simple_object_manipulation",
+            "visual-goal-reaching": "visual_goal_reaching",
+            "novel-concept-grounding": "novel_concept_grounding",
+            "one-shot-video-imitation": "one_shot_video_imitation",
+            "visual-constraint-satisfaction": "visual_constraint_satisfaction",
+            "visual-reasoning": "visual_reasoning"
+        };
+
+        function updateDemoVideo(category) {
+            // var demo = document.getElementById("single-menu-demos").value;
+            var task = document.getElementById(category + "-menu-tasks").value;
+            var inst = document.getElementById(category + "-menu-instances").value;
+
+            console.log(task_map[category], task, inst)
+
+            var video = document.getElementById(category + "-single-task-video");
+            video.src = "assets/videos/demos/" +
+                task_map[category] +
+                "/" +
+                task +
+                "/" +
+                inst +
+                ".mp4";
+            video.playbackRate = 2.0;
+            video.play();
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="./static/css/academicons.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <h1 class="title is-1 publication-title">Object-Centric Dexterous Manipulation from Human Motion Data</h1>
+                    <h3 class="title is-4 conference-authors"><a target="_blank" href="https://www.corl2023.org/">CoRL 2024</a></h3>
+                    <div class="is-size-5 publication-authors">
+                        <span class="author-block">
+                          <a target="_blank" href="https://cypypccpy.github.io/">Yuanpei Chen<sup>1, 2</sup></a>,
+                        </span>
+                        <span class="author-block">
+                          <a target="_blank" href="https://www.chenwangjeremy.net/">Chen Wang<sup>1</sup></a>,
+                        </span>
+                        <span class="author-block">
+                          <a target="_blank" href="https://www.yangyaodong.com/">Yaodong Yang<sup>2</sup></a>,
+                        </span>
+                        <span class="author-block">
+                          <a target="_blank" href="https://profiles.stanford.edu/c-karen-liu">C. Karen Liu<sup>1</sup></a>
+                        </span>
+
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Stanford University, <sup>2</sup>Peking University  </span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a target="_blank" href="assets\images\2023_CoRL_SeqDex.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+            <!-- Arxiv Link. -->
+            <span class="link-block">
+              <a target="_blank" href="https://arxiv.org/abs/2309.00987"
+                 class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                    <i class="fas fa-file"></i>
+                </span>
+                <span>ArXiv</span>
+              </a>
+            </span>
+
+            <!-- Video Link. -->
+            <span class="link-block">
+              <a target="_blank" href="https://youtu.be/2mmqQYO4KlY"
+                 class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                    <i class="fab fa-youtube"></i>
+                </span>
+                <span>Video</span>
+              </a>
+            </span>
+            <!-- Twitter Link. -->
+            <!-- <span class="link-block">
+              <a href="https://twitter.com/chenwang_j/status/1699453998464667814" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-twitter"></i>
+                </span>
+                <span>Twitter</span>
+              </a>
+            </span> -->
+            <!-- Code Link. -->
+            <span class="link-block">
+              <a target="_blank" href="https://github.com/sequential-dexterity/SeqDex"
+                 class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+                </a>
+            </span>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-fullhd">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-vcentered  is-centered">
+          <video id="teaser" autoplay muted loop height="50%" width="50%">
+            <source src="assets/videos/teaser_v2.mp4" type="video/mp4">
+          </video>
+          </br>
+        </div>
+        <br>
+        <h2 class="subtitle has-text-centered">
+          We introduce a hierarchical framework that uses human hand motion data and deep reinforcement learning to train dexterous robot hands for effective object-centric manipulation in both simulation and real world.
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-build_pymarid">
+          <video poster="" id="build_pymarid" autoplay controls muted loop height="100%">
+            <source src="assets/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-build_a_tower">
+          <video poster="" id="build_a_tower" autoplay controls muted loop height="100%">
+            <source src="assets/videos/book.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-Insert_a_red">
+          <video poster="" id="Insert_a_red" autoplay controls muted loop height="100%">
+            <source src="assets/videos/laptop.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-stack_two_cube">
+          <video poster="" id="stack_two_cube" autoplay controls muted loop height="100%">
+            <source src="assets/videos/forget.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-disturbance">
+          <video poster="" id="disturbance" autoplay controls muted loop height="100%">
+            <source src="assets/videos/micro.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-disturbance"></div>
+          <video poster="" id="disturbance" autoplay controls muted loop height="100%">
+            <source src="assets/videos/box.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <h2 class="subtitle has-text-centered">
+      </br>
+      Despite being trained only in simulation, our system demonstrates <b>zero-shot transfer</b> to two real-world robots equipped with the dexterous hand.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="hero-body">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p style="font-size: 125%">
+            Manipulating objects to achieve desired goal states is a basic but important skill for dexterous manipulation. Human hand motions demonstrate proficient manipulation capability, providing valuable data for training robots with multi-finger hands. Despite this potential, substantial challenges arise due to the embodiment gap between human and robot hands. In this work, we introduce a hierarchical policy learning framework that uses human hand motion data for training object-centric dexterous robot manipulation. At the core of our method is a high-level trajectory generative model, learned with a large-scale human hand motion capture dataset, to synthesize human-like wrist motions conditioned on the desired object goal states. Guided by the generated wrist motions, deep reinforcement learning is further used to train a low-level finger controller that is grounded in the robot's embodiment to physically interact with the object to achieve the goal. Through extensive evaluation across 10 household objects, our approach not only demonstrates superior performance but also showcases generalization capability to novel object geometries and goal states. Furthermore, we transfer the learned policies from simulation to a real-world bimanual dexterous robot system, further demonstrating its applicability in real-world scenarios.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Method</h2>
+        <div class="content has-text-justified">
+          <br>
+          <img src="assets/images/method 1.jpg" class="interpolation-image"
+               alt="" style="display: block; margin-left: auto; margin-right: auto" width="900"/>
+               <div class="content has-text-justified">
+                <br>
+          <span style="font-size: 125%">
+
+            <b>(A) Training:</b> Firstly, we use human motion capture data to train a generation model to synthesize dual hand trajectory conditions on object trajectory. Then we use the RL to train a low-level robot controller conditioned on the dual hand trajectory generated by the trained high-level planner. During this process we augment the data in simulation to improve the high-level planner and low-level controller simultaneously.
+            <!-- <b>(a).</b> A bi-directional optimization scheme consists of a <b><font color="#66b2ff">forward initialization</font></b> process and a <b><font color="#ff6666">backward fine-tuning</font></b> mechanism based on the transition feasibility function. <br> -->
+            <b>(B) Inference:</b> Given a single object goal trajectory, our framework generates dual hand reference trajectory and guides the low-level controller to accomplish the task.
+
+            <!-- <b>(b).</b> The learned system is able to zero-shot transfer to the real world. The transition feasibility function serves as a policy-switching identifier to select the most appropriate policy to execute at each time step.</span> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-widescreen">
+      <!-- Generalization Videos -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Experiments</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Experiments-->
+<section class="section is-dark">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+          <!-- <h2 class="title is-3"><span
+            class="dvima">Experiments</span></h2>
+          <br> -->
+          <h3 class="title is-4"><span
+            class="dvima">Environment Setups
+          </span></h3>
+
+          <img src="assets/images/workspace.jpg" class="interpolation-image"
+               alt="" style="display: block; margin-left: auto; margin-right: auto" width="900"/>
+               <div class="content has-text-justified">
+               <br>
+          <span style="font-size: 110%">
+            Overview of the environment setups: <br>
+            <b>(a).</b> Workspace of the simulation. We employ two Shadow Hands, each individually mounted on separate UR10e robots, arranged in an abreast configuration. <br>
+            <b>(b).</b> Object sets in the simulation and the real-world. <br>
+            <b>(c).</b> Workspace of the real-world, mirroring the simulation, the robot system uses the same Shadow Hands and UR10e robots as the simulation.
+            <!-- <b>(a).</b> Workspace of <b>Building Blocks</b> task in simulation and real-world. This long-horizon task includes four different subtasks: Searching for a block with desired dimension and color from a pile of cluttered blocks, Orienting the block to a favorable position, Grasping the block, and finally Inserting the block to its designated position on the structure. This sequence of actions repeats until the structure is completed according to the given assembly instructions. <br>
+            <b>(b).</b> The setup of the <b>Tool Positioning</b> task. Initially, the tool is placed on the table in a random pose, and the dexterous hand needs to grasp the tool and re-orient it to a ready-to-use pose. The comparison results illustrate how the way of grasping directly influences subsequent orientation. -->
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+          <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+              <div class="column">
+                  <h3 class="title is-4"><span
+                    class="dvima">Import Human Motion Capture Data to Simulation
+                  </span></h3>
+                  <br>
+                  <video poster="" autoplay controls muted loop width="900">
+                    <source src="assets/videos/page_1.mp4"
+                            type="video/mp4">
+                  </video>
+          <br>
+          <br>
+
+          <div class="content has-text-justified">
+            <span style="font-size: 110%">
+              The upper left video is the object goal trajectory input, and the upper right video is the high-level planner output (wrist motion generation).  
+          </div>
+
+        </div>
+        </div>
+      </div>
+
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+              <h3 class="title is-4"><span
+                class="dvima">Optimizing Human Mocap Data via Reinforcement Learning
+              </span></h3>
+              <br>
+              <video poster="" autoplay controls muted loop width="900">
+                <source src="assets/videos/page_2_revised.mp4"
+                        type="video/mp4">
+              </video>
+      <br>
+      <br>
+
+      <div class="content has-text-justified">
+        <span style="font-size: 110%">
+          The upper left video is the object goal trajectory input, and the upper right video is the high-level planner output (wrist motion generation).  
+      </div>
+
+    </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+          <h3 class="title is-4"><span
+            class="dvima">Learning Object-Centric Dexterous Manipulation in Isaac-Gym
+          </span></h3>
+          <br>
+          <video poster="" autoplay controls muted loop width="900">
+            <source src="assets/videos/quick_demo.mp4"
+                    type="video/mp4">
+          </video>
+  <br>
+  <br>
+
+  <div class="content has-text-justified">
+    <span style="font-size: 110%">
+      <b>Upper Left Video:</b> Object goal trajectories from Human Mocap Data (ARCTIC Dataset), which are the input of our policy. <br>
+      <b>Upper Right Video:</b> High-level planner output (wrist motion generation). Object motion replay for visualization. <br>
+      <b>Lower Video:</b> Low-level policy output (finger + wrist motion). Fully autonomous results, no object motion replay.
+    </div>
+
+</div>
+</div>
+</div>
+
+<div class="container is-max-desktop">
+  <div class="columns is-centered has-text-centered">
+    <div class="column">
+        <!-- <h3 class="title is-4"><span
+          class="dvima">
+        </span></h3> -->
+        <br>
+        <video poster="" autoplay controls muted loop width="900">
+          <source src="assets/videos/genera_to_unseen_traj.mp4"
+                  type="video/mp4">
+        </video>
+<br>
+<br>
+
+</div>
+</div>
+</div>
+
+<div class="container is-max-desktop">
+  <div class="columns is-centered has-text-centered">
+    <div class="column">
+        <br>
+        <video poster="" autoplay controls muted loop width="900">
+          <source src="assets/videos/genera_to_unseen_obj.mp4"
+                  type="video/mp4">
+        </video>
+<br>
+<br>
+
+<!-- <div class="content has-text-justified">
+  <span style="font-size: 110%">
+    The upper left video is the object goal trajectory input, and the upper right video is the high-level planner output (wrist motion generation).  
+</div> -->
+
+</div>
+</div>
+</div>
+
+<div class="container is-max-desktop">
+  <div class="columns is-centered has-text-centered">
+    <div class="column">
+        <br>
+        <video poster="" autoplay controls muted loop width="900">
+          <source src="assets/videos/cross_embo.mp4"
+                  type="video/mp4">
+        </video>
+<br>
+<br>
+
+</div>
+</div>
+</div>
+
+<div class="container is-max-desktop"></div>
+  <div class="columns is-centered has-text-centered">
+    <div class="column">
+        <br>
+        <video poster="" autoplay controls muted loop width="900">
+          <source src="assets/videos/fail_case.mp4"
+                  type="video/mp4">
+        </video>
+<br>
+<br>
+
+</div>
+</div>
+</div>
+
+
+    </div>
+
+                </div>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-widescreen">
+      <!-- Generalization Videos -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Additional Experiments</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Additional Experiments-->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+          <!-- <h2 class="title is-3"><span
+            class="dvima">Additional Experiments</span></h2>
+          <br>
+          <h3 class="title is-4"><span
+            class="dvima">Qualitative results of the learned transition feasibility functions
+          </span></h3> -->
+
+          <img src="assets/images/multi_hand.png" class="interpolation-image"
+               alt="" style="display: block; margin-left: auto; margin-right: auto" width="700"/>
+               <div class="content has-text-justified">
+                <br>
+           <span style="font-size: 110%">
+                <b>Experiments on the different embodiment.</b> We apply our method to four different types of multi-fingered dexterous hands, varying in size and degree of freedom. Our method achieved more than 50% completion rate for all hands, demonstrating that our framework can effectively transfer human data to different robot hand embodiments.
+          <br>
+          <br>
+
+        </div>
+
+          <h3 class="title is-4"><span
+            class="dvima">Quantitative results in the Building Blocks task
+          </span></h3>
+
+          <img src="assets/images/qual_results.png" class="interpolation-image"
+               alt="" style="display: block; margin-left: auto; margin-right: auto" width="900"/>
+
+               <br>
+               <br>
+
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-widescreen">
+      <!-- Generalization Videos -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Conclusion</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Contribution-->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+          <div class="content has-text-justified">
+          <p style="font-size: 125%">
+            In this work, we present a hierarchical policy learning framework that effectively utilizes human hand motion data to train object-centric dexterous robot manipulation. At the core of our method is a high-level trajectory generative model trained with a large-scale human hand motion capture dataset, which synthesizes human-like wrist motions conditioned on the object goal trajectory. Guided by these wrist motions, we further trained an RL-based low-level finger controller to achieve the task goal. Our approach demonstrated superior performance across various household objects and showcased generalization capabilities to novel object geometries and goal trajectories. Moreover, the successful transfer of the learned policies from simulation to a real-world bimanual dexterous robot system underscores the practical applicability of our method in real-world scenarios.
+        </p>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-widescreen content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{chen2023sequential,
+      title={Sequential Dexterity: Chaining Dexterous Policies for Long-Horizon Manipulation},
+      author={Chen, Yuanpei and Wang, Chen and Fei-Fei, Li and Liu, C Karen},
+      journal={arXiv preprint arXiv:2309.00987},
+      year={2023}
+    }</code></pre>
+  </div>
+</section>
+
+
+</body>
+</html>
